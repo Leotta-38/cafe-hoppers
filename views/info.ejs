@@ -1,0 +1,46 @@
+<section class="info">
+ 
+  <h1><%= cafe.name %></h1>
+
+  <% const photo = photos.find(e => e.cafe_id === cafe.id) %>
+  <% if (photo) { %>
+    <img src="<%= photo.image_url %>" alt="<%= cafe.name %>" class="cafe_photo">
+  <% } else { %>
+    <img src="/img/no_image.jpg" alt="no_image" class="cafe_photo">
+  <% } %>  
+
+  <div class="cafe_about">
+    <div class="grid-item">      
+      <%- cafe.gmap_url %>
+    </div>
+    <div class="grid-item">
+      <p>Phone number: <%= cafe.phone %></p>
+      <a href="<%= cafe.website %>" target="_blank">Webiste</a>
+      <p>Shared on <%= cafe.date %></p>
+      <p>Shared by <%= user.username %></p>
+      <% if (photo) { %>
+      <% } %>
+    </div>
+  </div>
+
+  <div class="comments">
+    <% for (let comment of comments) { %>
+      <div class="comment">
+        <img src="<%= user.icon_url %>" alt="user_icon" class="comment_user_icon">
+        <p class="comment_username"><%= user.username %></p>
+        <p class="comment_date"><%= comment.date %></p>
+        <p class="comment_comment"><%= comment.comment %></p>
+        <% const photo = photos.find(e => e.comment_id === comment.id) %>
+        <img src="<%= photo.image_url %>" class="comment_photo">
+      </div>
+    <% } %>
+  
+      <form action="/cafes/<%= cafe.id %>/comment" method="post">
+    <textarea name="comment"></textarea>
+    <input type="text" name="imageUrl" placeholder="Image url">
+    <label for="">Review</label>
+    <input type="range" name="reviewPoint" min="1" max="5">
+    <button>Comment</button>
+  </form>
+  </div>
+</section>

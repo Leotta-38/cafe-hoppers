@@ -50,6 +50,67 @@ nav li {
   border: 1px solid purple;
 }
 
+.ui-card img {
+  width: 100%;
+}
+
+.info {
+  width: 80%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.cafe_photo {
+  width: 40%;
+}
+
+.cafe_about {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.cafe_about iframe {
+  width: 100%;
+}
+
+.comment {
+  border: 1px solid gray;
+  position: relative;
+  width: 80%;
+  background-color: white;
+  margin: 0 auto;
+  height: 100px;
+}
+
+.comment_user_icon {
+  position: absolute;
+  height: 20px;
+  left: 0;
+}
+
+.comment_username {
+  position: absolute;
+  left: 30px;
+}
+
+.comment_date {
+  position: absolute;
+  right: 0;
+}
+
+.comment_comment {
+  position: absolute;
+  top: 20px;
+}
+
+.comment_photo {
+  position: absolute;
+  top: 20px;
+  right: 0;
+  height: 75px;
+  width: auto;
+}
+
 footer {
   margin-top: 30px;
 }

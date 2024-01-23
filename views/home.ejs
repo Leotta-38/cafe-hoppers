@@ -3,9 +3,15 @@
   <% for (let cafe of cafes) { %>
   
     <div class="ui-card">
-      <h2>
-        <a href="/cafes/<%= cafe.id %>"><%= cafe.name %></a>
-      </h2>
+      <a href="/cafes/<%= cafe.id %>">
+        <h2><%= cafe.name %></h2>
+        <% const photo = photos.find(e => e.cafe_id === cafe.id) %>
+        <% if (photo) { %>
+          <img src="<%= photo.image_url %>" alt="<%= cafe.name %>">
+        <% } else { %>
+          <img src="/img/no_image.jpg" alt="no_image">
+        <% } %>  
+      </a>
     </div>
   
     <% } %>

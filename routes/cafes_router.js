@@ -7,25 +7,122 @@ router.post('/cafes', ensureLoggedIn, (req, res) => {
   let name = req.body.name
   let gmapUrl = req.body.gmapUrl
   let phone = req.body.phone
-  let website = req.body.webiste
+  let website = req.body.website
   let date = new Date().toLocaleDateString()
   let userId = req.session.userId
 
   const sql = `
     INSERT INTO cafes (name, gmap_url, phone, website, date, user_id) 
     VALUES ($1, $2, $3, $4, $5, $6)
+    RETURNING id;
   `
   db.query(sql, [name, gmapUrl, phone, website, date, userId], (err, result) => {
     if (err) {
       console.log(err);
     }
 
-    res.redirect('/')
+    let id = result.rows[0].id
+    res.redirect(`/cafes/${id}`)
   })
 })
 
 router.get('/cafes/new', (req, res) => {
   res.render('cafe_new_form')
+})
+
+router.get('/cafes/:id', (req, res) => {
+
+  const cafeId = req.params.id
+
+  const sql = `
+    SELECT * FROM cafes 
+    WHERE id = $1;
+  `
+  db.query(sql, [cafeId], (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+
+    let cafe = result.rows[0]
+
+    const sql2 = `
+      SELECT * FROM users 
+      WHERE id = $1;
+    `
+    db.query(sql2, [cafe.user_id], (err, result2) => {
+      if (err) {
+        console.log(err);
+      }
+
+      let user = result2.rows[0]
+
+      const sql3 = `
+        SELECT * FROM comments 
+        WHERE cafe_id = $1;
+      `
+      db.query(sql3, [cafeId], (err, result3) => {
+        if (err) {
+          console.log(err);
+        }
+
+        let comments = result3.rows
+
+        const sql4 = `
+          SELECT * FROM photos 
+          WHERE cafe_id = $1;
+        `
+        db.query(sql4, [cafeId], (err, result4) => {
+          if (err) {
+            console.log(err);
+          }
+
+          let photos = result4.rows
+          res.render('info', {
+            cafe: cafe,
+            user: user,
+            comments: comments,
+            photos: photos
+          })
+        })
+      })
+    })
+  })
+})
+
+router.post('/cafes/:id/comment', ensureLoggedIn, (req, res) => {
+  let comment = req.body.comment
+  let imageUrl = req.body.imageUrl
+  let cafeId = req.params.id
+  let userId = req.session.userId
+  let date = new Date().toLocaleDateString()
+  let reviewPoint = req.body.reviewPoint
+  let likes = 0
+
+  const sql = `
+    INSERT INTO comments (comment, cafe_id, user_id, date, review_point, likes) 
+    VALUES ($1, $2, $3, $4, $5, $6)
+    RETURNING id;
+  `
+  db.query(sql, [comment, cafeId, userId, date, reviewPoint, likes], (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+
+    let commentId = result.rows[0].id
+
+    const sql2 = `
+      INSERT INTO photos (image_url, cafe_id, user_id, comment_id, date, likes) 
+      VALUES ($1, $2, $3, $4, $5, $6);
+    `
+    db.query(sql2, [imageUrl, cafeId, userId, commentId, date, likes], (err2, result2) => {
+      if (err2) {
+        console.log(err2)
+      }
+    })
+
+    res.redirect(`/cafes/${cafeId}`)
+  })
+
 })
 
 module.exports = router

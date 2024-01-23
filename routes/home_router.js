@@ -13,8 +13,20 @@ router.get('/', (req, res) => {
     }
 
     let cafes = result.rows
-    res.render('home', {
-      cafes: cafes
+
+    const sql2 = `
+      SELECT * FROM photos
+    `
+    db.query(sql2, (err2, result2) => {
+      if (err2) {
+        console.log(err2);
+      }
+
+      let photos = result2.rows
+      res.render('home', {
+        cafes: cafes,
+        photos: photos
+      })
     })
   })
 })
