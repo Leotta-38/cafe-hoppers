@@ -1,0 +1,13 @@
+<div class="grid-wrapper">
+
+  <% for (let cafe of cafes) { %>
+  
+    <div class="ui-card">
+      <h2>
+        <a href="/cafes/<%= cafe.id %>"><%= cafe.name %></a>
+      </h2>
+    </div>
+  
+    <% } %>
+  
+  </div>

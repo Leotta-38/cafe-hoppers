@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cafe Hoppers</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <nav>
+    <h1>Cafe Hoppers</h1>
+    <ul>
+      <a href="/"><li>home</li></a>
+      <a href="/cafes"><li>find a cafe</li></a>
+      <% if (!isLoggedIn) { %>
+        <a href="/login"><li>log in</li></a>
+      <% } else { %>
+        <a href="/cafes/new"><li>share a cafe</li></a>
+        <a href="/user/list"><li>list</li></a>
+        <a href="/user"><li><img src="<%= currentUser.icon_url %>" alt="user_icon" class="user_icon"></li></a>
+      <% } %>
+    </ul>
+  </nav>
+
+  <%- body %>
+
+  <footer>
+    &copy;2024
+  </footer>
+</body>
+</html>

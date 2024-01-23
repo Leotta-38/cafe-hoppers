@@ -1,0 +1,11 @@
+<img src="<%= currentUser.icon_url %>" alt="icon_url">
+
+<h2><%= currentUser.username %></h2>
+
+<p><%= currentUser.email %></p>
+
+<a href="/user/edit">Edit</a>
+
+<form action="/logout?_method=delete" method="post">
+  <button>Log out</button>
+</form>

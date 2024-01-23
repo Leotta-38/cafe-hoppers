@@ -1,0 +1,55 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: mistyrose;
+}
+
+a {
+  text-decoration: none;
+}
+
+
+nav {
+  background-color: aquamarine;
+  /* position: fixed; */
+}
+
+nav h1 {
+  font-size: 50px;
+  padding: 20px;
+  display: inline-block;
+}
+
+nav ul {
+  float: right;
+}
+
+nav li {
+  display: inline-block;
+  background-color: cornflowerblue;
+  border: 1px solid gray;
+  padding: 10px;
+  margin: 10px;
+}
+
+.user_icon {
+  height: 50px;
+}
+
+.grid-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.ui-card {
+  border: 1px solid purple;
+}
+
+footer {
+  margin-top: 30px;
+}
