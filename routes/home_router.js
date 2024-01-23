@@ -5,7 +5,7 @@ const db = require('../db')
 router.get('/', (req, res) => {
   console.log(req.session.userId);
   const sql = `
-    SELECT * FROM cafes
+    SELECT * FROM cafes;
   `
   db.query(sql, (err, result) => {
     if (err) {
@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
     let cafes = result.rows
 
     const sql2 = `
-      SELECT * FROM photos
+      SELECT * FROM photos;
     `
     db.query(sql2, (err2, result2) => {
       if (err2) {

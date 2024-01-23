@@ -5,7 +5,7 @@ const ensureLoggedIn = require('../middlewares/ensure_logged_in')
 
 router.get('/cafes', (req, res) => {
   const sql = `
-    SELECT * FROM cafes
+    SELECT * FROM cafes;
   `
   db.query(sql, (err, result) => {
     if (err) {
@@ -15,7 +15,7 @@ router.get('/cafes', (req, res) => {
     let cafes = result.rows
 
     const sql2 = `
-      SELECT * FROM photos
+      SELECT * FROM photos;
     `
     db.query(sql2, (err2, result2) => {
       if (err2) {
@@ -77,9 +77,9 @@ router.get('/cafes/:id', (req, res) => {
       SELECT * FROM users 
       WHERE id = $1;
     `
-    db.query(sql2, [cafe.user_id], (err, result2) => {
-      if (err) {
-        console.log(err);
+    db.query(sql2, [cafe.user_id], (err2, result2) => {
+      if (err2) {
+        console.log(err2);
       }
 
       let user = result2.rows[0]
@@ -88,9 +88,9 @@ router.get('/cafes/:id', (req, res) => {
         SELECT * FROM comments 
         WHERE cafe_id = $1;
       `
-      db.query(sql3, [cafeId], (err, result3) => {
-        if (err) {
-          console.log(err);
+      db.query(sql3, [cafeId], (err3, result3) => {
+        if (err3) {
+          console.log(err3);
         }
 
         let comments = result3.rows
@@ -99,9 +99,9 @@ router.get('/cafes/:id', (req, res) => {
           SELECT * FROM photos 
           WHERE cafe_id = $1;
         `
-        db.query(sql4, [cafeId], (err, result4) => {
-          if (err) {
-            console.log(err);
+        db.query(sql4, [cafeId], (err4, result4) => {
+          if (err4) {
+            console.log(err4);
           }
 
           let photos = result4.rows
@@ -206,7 +206,7 @@ router.post('/cafes/:id/comment', ensureLoggedIn, (req, res) => {
 
     const sql3 = `
       SELECT review_point FROM comments 
-      WHERE cafe_id = $1
+      WHERE cafe_id = $1;
     `
     db.query(sql3, [cafeId], (err3, result3) => {
       if (err3) {
@@ -219,13 +219,14 @@ router.post('/cafes/:id/comment', ensureLoggedIn, (req, res) => {
         sumReviewPoints += Number(reviewPoint.review_point)
       }
       let averageReviewPoints = sumReviewPoints / result3.rows.length
+      let roundedAveReviewPoints = Math.round(averageReviewPoints * 10) / 10
 
       const sql4 = `
         UPDATE cafes SET 
           ave_review_point = $1
         WHERE id = $2;
       `
-      db.query(sql4, [averageReviewPoints, cafeId], (err4, result4) => {
+      db.query(sql4, [roundedAveReviewPoints, cafeId], (err4, result4) => {
         if (err4) {
           console.log(err4);
         }
@@ -234,14 +235,13 @@ router.post('/cafes/:id/comment', ensureLoggedIn, (req, res) => {
       })
     })
   })
-
 })
 
 router.get('/cafes/*/comment/:id', ensureLoggedIn, (req, res) => {
 
   const sql = `
     SELECT * FROM comments
-    WHERE id = $1
+    WHERE id = $1;
   `
   db.query(sql, [req.params.id], (err, result) => {
     if (err) {
@@ -252,7 +252,7 @@ router.get('/cafes/*/comment/:id', ensureLoggedIn, (req, res) => {
 
     const sql2 = `
       SELECT * FROM photos 
-      WHERE comment_id = $1
+      WHERE comment_id = $1;
     `
     db.query(sql2, [req.params.id], (err2, result2) => {
       if (err2) {
@@ -273,6 +273,7 @@ router.put('/cafes/:cafeId/comment/:id', ensureLoggedIn, (req, res) => {
   let imageUrl = req.body.imageUrl
   let reviewPoint = req.body.reviewPoint
   let id = req.params.id
+  let cafeId = req.params.cafeId
 
   const sql = `
     UPDATE comments SET 
@@ -295,7 +296,36 @@ router.put('/cafes/:cafeId/comment/:id', ensureLoggedIn, (req, res) => {
         console.log(err2);
       }
 
-      res.redirect(`/cafes/${req.params.cafeId}`)
+      const sql3 = `
+        SELECT review_point FROM comments 
+        WHERE cafe_id = $1;
+      `
+      db.query(sql3, [cafeId], (err3, result3) => {
+        if (err3) {
+          console.log(err3);
+        }
+
+        let reviewPoints = result3.rows
+        let sumReviewPoints = 0
+        for (let reviewPoint of reviewPoints) {
+          sumReviewPoints += Number(reviewPoint.review_point)
+        }
+        let averageReviewPoints = sumReviewPoints / result3.rows.length
+        let roundedAveReviewPoints = Math.round(averageReviewPoints * 10) / 10
+
+        const sql4 = `
+          UPDATE cafes SET 
+            ave_review_point = $1
+          WHERE id = $2;
+        `
+        db.query(sql4, [roundedAveReviewPoints, cafeId], (err4, result4) => {
+          if (err4) {
+            console.log(err4);
+          }
+
+          res.redirect(`/cafes/${cafeId}`)
+        })
+      })
     })
   })
 })

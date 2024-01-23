@@ -100,9 +100,9 @@ router.post('/signup', (req, res) => {
           INSERT INTO users (username, email, hashed_password, icon_url)
           VALUES ($1, $2, $3, $4);
         `
-        db.query(sql2, [username, email, hashedPassword, iconUrl], (err, result2) => {
-          if (err) {
-            console.log(err)
+        db.query(sql2, [username, email, hashedPassword, iconUrl], (err2, result2) => {
+          if (err2) {
+            console.log(err2)
             res.redirect('/signup')
             return
           }
@@ -110,9 +110,9 @@ router.post('/signup', (req, res) => {
             SELECT id FROM users 
             WHERE email = $1;
           `
-          db.query(sql3, [email], (err, result3) => {
-            if (err) {
-              console.log(err);
+          db.query(sql3, [email], (err3, result3) => {
+            if (err3) {
+              console.log(err3);
               res.redirect('/signup')
               return
             }
