@@ -1,0 +1,16 @@
+<% for (let cafe of cafes) { %>
+
+  <a href="/cafes/<%= cafe.id %>">
+    <div class="cafes_box">
+      <% const photo = photos.find(e => e.cafe_id === cafe.id) %>
+      <% if (photo) { %>
+        <img src="<%= photo.image_url %>" alt="<%= cafe.name %>">
+      <% } else { %>
+        <img src="/img/no_image.jpg" alt="no_image">
+      <% } %>  
+      <h3><%= cafe.name %></h3>
+      <p><%= cafe.ave_review_point %></p>
+    </div>
+  </a>
+
+<% } %>

@@ -4,7 +4,31 @@ const db = require('../db')
 const ensureLoggedIn = require('../middlewares/ensure_logged_in')
 
 router.get('/cafes', (req, res) => {
-  res.send('YEAH!')
+  const sql = `
+    SELECT * FROM cafes
+  `
+  db.query(sql, (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+
+    let cafes = result.rows
+
+    const sql2 = `
+      SELECT * FROM photos
+    `
+    db.query(sql2, (err2, result2) => {
+      if (err2) {
+        console.log(err2);
+      }
+
+      let photos = result2.rows
+      res.render('cafes', {
+        cafes: cafes,
+        photos: photos
+      })
+    })
+  })
 })
 
 router.post('/cafes', ensureLoggedIn, (req, res) => {
@@ -180,7 +204,35 @@ router.post('/cafes/:id/comment', ensureLoggedIn, (req, res) => {
       }
     })
 
-    res.redirect(`/cafes/${cafeId}`)
+    const sql3 = `
+      SELECT review_point FROM comments 
+      WHERE cafe_id = $1
+    `
+    db.query(sql3, [cafeId], (err3, result3) => {
+      if (err3) {
+        console.log(err3);
+      }
+
+      let reviewPoints = result3.rows
+      let sumReviewPoints = 0
+      for (let reviewPoint of reviewPoints) {
+        sumReviewPoints += Number(reviewPoint.review_point)
+      }
+      let averageReviewPoints = sumReviewPoints / result3.rows.length
+
+      const sql4 = `
+        UPDATE cafes SET 
+          ave_review_point = $1
+        WHERE id = $2;
+      `
+      db.query(sql4, [averageReviewPoints, cafeId], (err4, result4) => {
+        if (err4) {
+          console.log(err4);
+        }
+
+        res.redirect(`/cafes/${cafeId}`)
+      })
+    })
   })
 
 })

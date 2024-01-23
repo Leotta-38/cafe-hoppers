@@ -54,6 +54,18 @@ nav li {
   width: 100%;
 }
 
+.cafes_box {
+  border: 1px solid gray;
+}
+
+.cafes_box img {
+  height: 200px;
+}
+
+.cafes_box h3 {
+  display: inline-block;
+}
+
 .info {
   width: 80%;
   margin: 0 auto;
