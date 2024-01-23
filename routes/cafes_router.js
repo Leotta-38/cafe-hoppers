@@ -36,7 +36,7 @@ router.post('/cafes', ensureLoggedIn, (req, res) => {
   let gmapUrl = req.body.gmapUrl
   let phone = req.body.phone
   let website = req.body.website
-  let date = new Date().toLocaleDateString()
+  let date = new Date().toLocaleString()
   let userId = req.session.userId
 
   const sql = `
@@ -122,6 +122,7 @@ router.put('/cafes/:id', ensureLoggedIn, (req, res) => {
   let gmapUrl = req.body.gmapUrl
   let phone = req.body.phone
   let website = req.body.website
+  let date = new Date().toLocaleString()
   let id = req.params.id
 
   const sql = `
@@ -129,10 +130,11 @@ router.put('/cafes/:id', ensureLoggedIn, (req, res) => {
       name = $1, 
       gmap_url = $2, 
       phone = $3, 
-      website = $4
-    WHERE id = $5;
+      website = $4,
+      date = $5
+    WHERE id = $6;
   `
-  db.query(sql, [name, gmapUrl, phone, website, id], (err, result) => {
+  db.query(sql, [name, gmapUrl, phone, website, date, id], (err, result) => {
     if (err) {
       console.log(err);
     }

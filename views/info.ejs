@@ -16,7 +16,12 @@
     <div class="grid-item">
       <p>Phone number: <%= cafe.phone %></p>
       <a href="<%= cafe.website %>" target="_blank">Website</a>
-      <p>Shared on <%= cafe.date %></p>
+      <% let date = cafe.date.split(',').shift().split('/')%>
+      <% let temp = date[0] %>
+      <% date[0] = date[1] %>
+      <% date[1] = temp %>
+      <% date = date.join('/')%>
+      <p>Shared on <%= date %></p>
       <p>Shared by <%= user.username %></p>
       <% if (user.id === currentUser.id) { %>
         <a href="/cafes/<%= cafe.id %>/edit">Edit</a>

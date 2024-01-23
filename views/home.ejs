@@ -1,13 +1,15 @@
+<p>Popular cafes</p>
 <div class="grid-wrapper">
 
-  <% for (let cafe of cafes) { %>
+  <% for (let i = 0; i < 4; i++) { %>
   
     <div class="ui-card">
-      <a href="/cafes/<%= cafe.id %>">
-        <h2><%= cafe.name %></h2>
-        <% const photo = photos.find(e => e.cafe_id === cafe.id) %>
+      <a href="/cafes/<%= cafes1[i].id %>">
+        <h2><%= cafes1[i].name %></h2>
+        <p>Rating: <%= cafes1[i].ave_review_point %></p>
+        <% const photo = photos.find(e => e.cafe_id === cafes1[i].id) %>
         <% if (photo) { %>
-          <img src="<%= photo.image_url %>" alt="<%= cafe.name %>">
+          <img src="<%= photo.image_url %>" alt="<%= cafes1[i].name %>">
         <% } else { %>
           <img src="/img/no_image.jpg" alt="no_image">
         <% } %>  
@@ -17,3 +19,32 @@
     <% } %>
   
   </div>
+  <a href="/cafes">See all</a>
+
+<p>Recently shared cafes</p>
+<div class="grid-wrapper">
+
+  <% for (let i = 0; i < 4; i++) { %>
+  
+    <div class="ui-card">
+      <a href="/cafes/<%= cafes2[i].id %>">
+        <h2><%= cafes2[i].name %></h2>
+        <% let date = cafes2[i].date.split(',').shift().split('/')%>
+        <% let temp = date[0] %>
+        <% date[0] = date[1] %>
+        <% date[1] = temp %>
+        <% date = date.join('/')%>  
+        <p>Shared on: <%= date %></p>
+        <% const photo = photos.find(e => e.cafe_id === cafes2[i].id) %>
+        <% if (photo) { %>
+          <img src="<%= photo.image_url %>" alt="<%= cafes2[i].name %>">
+        <% } else { %>
+          <img src="/img/no_image.jpg" alt="no_image">
+        <% } %>  
+      </a>
+    </div>
+  
+    <% } %>
+  
+  </div>
+  <a href="/cafes">See all</a>
