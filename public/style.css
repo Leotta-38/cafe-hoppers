@@ -98,6 +98,11 @@ nav li {
   right: 0;
 }
 
+.comment_review_point {
+  position: absolute;
+  right: 120px;
+}
+
 .comment_comment {
   position: absolute;
   top: 20px;
@@ -109,6 +114,12 @@ nav li {
   right: 0;
   height: 75px;
   width: auto;
+}
+
+.comment_edit {
+  position: absolute;
+  left: 0;
+  bottom: 0;
 }
 
 footer {

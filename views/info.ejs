@@ -30,18 +30,22 @@
         <img src="<%= user.icon_url %>" alt="user_icon" class="comment_user_icon">
         <p class="comment_username"><%= user.username %></p>
         <p class="comment_date"><%= comment.date %></p>
+        <p class="comment_review_point">Rating: <%= comment.review_point %></p>
         <p class="comment_comment"><%= comment.comment %></p>
         <% const photo = photos.find(e => e.comment_id === comment.id) %>
         <img src="<%= photo.image_url %>" class="comment_photo">
+        <% if (user.id === currentUser.id) { %>
+          <a href="/cafes/<%= cafe.id %>/comment/<%= comment.id %>" class="comment_edit">Edit</a>
+        <% } %>
       </div>
     <% } %>
   
-      <form action="/cafes/<%= cafe.id %>/comment" method="post">
-    <textarea name="comment"></textarea>
-    <input type="text" name="imageUrl" placeholder="Image url">
-    <label for="">Rating</label>
-    <input type="range" name="reviewPoint" min="1" max="5">
-    <button>Comment</button>
-  </form>
+    <form action="/cafes/<%= cafe.id %>/comment" method="post">
+      <textarea name="comment" placeholder="Comment"></textarea>
+      <input type="text" name="imageUrl" placeholder="Image url">
+      <label for="">Rating</label>
+      <input type="range" name="reviewPoint" min="1" max="5">
+      <button>Comment</button>
+    </form>
   </div>
 </section>

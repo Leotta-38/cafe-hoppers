@@ -1,0 +1,11 @@
+<form action="/cafes/<%= comment.cafe_id %>/comment/<%= comment.id %>?_method=put" method="post">
+  <textarea name="comment"><%= comment.comment %></textarea>
+  <input type="text" name="imageUrl" value="<%= photo.image_url %>">
+  <label for="">Rating</label>
+  <input type="range" name="reviewPoint" min="1" max="5" value="<%= comment.review_point %>">
+  <button>Update</button>
+</form>
+
+<form action="/cafes/<%= comment.cafe_id %>/comment/<%= comment.id %>?_method=delete" method="post">
+  <button>Delete</button>
+</form>

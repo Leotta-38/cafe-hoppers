@@ -131,6 +131,24 @@ router.delete('/cafes/:id', ensureLoggedIn, (req, res) => {
   })
 })
 
+router.get('/cafes/:id/edit', ensureLoggedIn, (req, res) => {
+  
+  const sql = `
+    SELECT * FROM cafes
+    WHERE id = $1
+  `
+  db.query(sql, [req.params.id], (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+
+    let cafe = result.rows[0]
+    res.render('cafe_edit_form', {
+      cafe: cafe
+    })
+  })
+})
+
 router.post('/cafes/:id/comment', ensureLoggedIn, (req, res) => {
   let comment = req.body.comment
   let imageUrl = req.body.imageUrl
@@ -167,10 +185,10 @@ router.post('/cafes/:id/comment', ensureLoggedIn, (req, res) => {
 
 })
 
-router.get('/cafes/:id/edit', ensureLoggedIn, (req, res) => {
-  
+router.get('/cafes/*/comment/:id', ensureLoggedIn, (req, res) => {
+
   const sql = `
-    SELECT * FROM cafes
+    SELECT * FROM comments
     WHERE id = $1
   `
   db.query(sql, [req.params.id], (err, result) => {
@@ -178,11 +196,81 @@ router.get('/cafes/:id/edit', ensureLoggedIn, (req, res) => {
       console.log(err);
     }
 
-    let cafe = result.rows[0]
-    res.render('cafe_edit_form', {
-      cafe: cafe
+    let comment = result.rows[0]
+
+    const sql2 = `
+      SELECT * FROM photos 
+      WHERE comment_id = $1
+    `
+    db.query(sql2, [req.params.id], (err2, result2) => {
+      if (err2) {
+        console.log(err2);
+      }
+
+      let photo = result2.rows[0]
+      res.render('comment_edit_form', {
+        comment: comment,
+        photo: photo
+      })
     })
   })
 })
+
+router.put('/cafes/:cafeId/comment/:id', ensureLoggedIn, (req, res) => {
+  let comment = req.body.comment
+  let imageUrl = req.body.imageUrl
+  let reviewPoint = req.body.reviewPoint
+  let id = req.params.id
+
+  const sql = `
+    UPDATE comments SET 
+      comment = $1, 
+      review_point = $2 
+    WHERE id = $3;
+  `
+  db.query(sql, [comment, reviewPoint, id], (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+
+    const sql2 = `
+      UPDATE photos SET 
+        image_url = $1
+      WHERE comment_id = $2;
+    `
+    db.query(sql2, [imageUrl, id], (err2, result2) => {
+      if (err2) {
+        console.log(err2);
+      }
+
+      res.redirect(`/cafes/${req.params.cafeId}`)
+    })
+  })
+})
+
+router.delete('/cafes/:cafeId/comment/:id', ensureLoggedIn, (req, res) => {
+  const sql = `
+    DELETE FROM comments
+    WHERE id = $1;
+  `
+  db.query(sql, [req.params.id], (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+
+    const sql2 = `
+      DELETE FROM photos
+      WHERE comment_id = $1;
+    `
+    db.query(sql2, [req.params.id], (err2, result2) => {
+      if (err2) {
+        console.log(err2);
+      }
+
+      res.redirect(`/cafes/${req.params.cafeId}`)
+    })
+  })
+})
+
 
 module.exports = router
