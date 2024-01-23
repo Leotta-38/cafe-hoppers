@@ -15,10 +15,11 @@
     </div>
     <div class="grid-item">
       <p>Phone number: <%= cafe.phone %></p>
-      <a href="<%= cafe.website %>" target="_blank">Webiste</a>
+      <a href="<%= cafe.website %>" target="_blank">Website</a>
       <p>Shared on <%= cafe.date %></p>
       <p>Shared by <%= user.username %></p>
-      <% if (photo) { %>
+      <% if (user.id === currentUser.id) { %>
+        <a href="/cafes/<%= cafe.id %>/edit">Edit</a>
       <% } %>
     </div>
   </div>
@@ -38,7 +39,7 @@
       <form action="/cafes/<%= cafe.id %>/comment" method="post">
     <textarea name="comment"></textarea>
     <input type="text" name="imageUrl" placeholder="Image url">
-    <label for="">Review</label>
+    <label for="">Rating</label>
     <input type="range" name="reviewPoint" min="1" max="5">
     <button>Comment</button>
   </form>

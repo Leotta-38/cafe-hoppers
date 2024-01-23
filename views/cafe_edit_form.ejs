@@ -1,0 +1,11 @@
+<form action="/cafes/<%= cafe.id %>?_method=put" method="post">
+  <input type="text" name="name" value="<%= cafe.name %>">
+  <input type="text" name="gmapUrl" value="<%= cafe.gmap_url %>">
+  <input type="text" name="phone" value="<%= cafe.phone %>">
+  <input type="text" name="website" value="<%= cafe.website %>">
+  <button>Update</button>
+</form>
+
+<form action="/cafes/<%= cafe.id %>?_method=delete" method="post">
+  <button>Delete</button>
+</form>

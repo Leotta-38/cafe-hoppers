@@ -3,6 +3,10 @@ const router = express.Router()
 const db = require('../db')
 const ensureLoggedIn = require('../middlewares/ensure_logged_in')
 
+router.get('/cafes', (req, res) => {
+  res.send('YEAH!')
+})
+
 router.post('/cafes', ensureLoggedIn, (req, res) => {
   let name = req.body.name
   let gmapUrl = req.body.gmapUrl
@@ -89,6 +93,44 @@ router.get('/cafes/:id', (req, res) => {
   })
 })
 
+router.put('/cafes/:id', ensureLoggedIn, (req, res) => {
+  let name = req.body.name
+  let gmapUrl = req.body.gmapUrl
+  let phone = req.body.phone
+  let website = req.body.website
+  let id = req.params.id
+
+  const sql = `
+    UPDATE cafes SET 
+      name = $1, 
+      gmap_url = $2, 
+      phone = $3, 
+      website = $4
+    WHERE id = $5;
+  `
+  db.query(sql, [name, gmapUrl, phone, website, id], (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+
+    res.redirect(`/cafes/${id}`)
+  })
+})
+
+router.delete('/cafes/:id', ensureLoggedIn, (req, res) => {
+  const sql = `
+    DELETE FROM cafes
+    WHERE id = $1;
+  `
+  db.query(sql, [req.params.id], (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+
+    res.redirect('/cafes')
+  })
+})
+
 router.post('/cafes/:id/comment', ensureLoggedIn, (req, res) => {
   let comment = req.body.comment
   let imageUrl = req.body.imageUrl
@@ -123,6 +165,24 @@ router.post('/cafes/:id/comment', ensureLoggedIn, (req, res) => {
     res.redirect(`/cafes/${cafeId}`)
   })
 
+})
+
+router.get('/cafes/:id/edit', ensureLoggedIn, (req, res) => {
+  
+  const sql = `
+    SELECT * FROM cafes
+    WHERE id = $1
+  `
+  db.query(sql, [req.params.id], (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+
+    let cafe = result.rows[0]
+    res.render('cafe_edit_form', {
+      cafe: cafe
+    })
+  })
 })
 
 module.exports = router
