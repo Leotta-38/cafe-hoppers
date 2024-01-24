@@ -60,11 +60,11 @@ router.post('/cafes', ensureLoggedIn, (req, res) => {
   let userId = req.session.userId
 
   const sql = `
-    INSERT INTO cafes (name, gmap_url, phone, website, date, user_id) 
-    VALUES ($1, $2, $3, $4, $5, $6)
+    INSERT INTO cafes (name, gmap_url, phone, website, date, user_id, ave_review_point) 
+    VALUES ($1, $2, $3, $4, $5, $6, $7)
     RETURNING id;
   `
-  db.query(sql, [name, gmapUrl, phone, website, date, userId], (err, result) => {
+  db.query(sql, [name, gmapUrl, phone, website, date, userId, 0], (err, result) => {
     if (err) {
       console.log(err);
     }

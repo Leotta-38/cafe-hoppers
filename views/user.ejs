@@ -1,11 +1,18 @@
-<img src="<%= currentUser.icon_url %>" alt="icon_url">
+<div class="profile">
 
-<h2><%= currentUser.username %></h2>
+  <img src="<%= currentUser.icon_url %>" alt="icon_url">
+  
+  <h2><%= currentUser.username %></h2>
+  
+  <p><%= currentUser.email %></p>
+  
+  <a href="/user/edit">Edit profile</a>
+  
+  <form action="/logout?_method=delete" method="post">
+    <button class="logout-btn">Log out</button>
+  </form>
 
-<p><%= currentUser.email %></p>
+</div>
 
-<a href="/user/edit">Edit</a>
 
-<form action="/logout?_method=delete" method="post">
-  <button>Log out</button>
-</form>
+<%- contentFor('js') %>

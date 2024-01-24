@@ -1,14 +1,25 @@
-<form action="/user/?_method=put" method="post">
-  <input type="text" name="username" value="<%= currentUser.username %>">
-  <input type="email" name="email" value="<%= currentUser.email %>">
-  <% if (currentUser.icon_url === '/img/user_icon.png') { %>
-    <input type="text" name="iconUrl" placeholder="icon link">
-  <% } else { %>
-    <input type="text" name="iconUrl" value="<%= currentUser.icon_url %>">
-  <% } %>
-  <button>Update</button>
-</form>
+<div class="form">
 
-<form action="/user/?_method=delete" method="post">
-  <button>Delete</button>
-</form>
+  <form action="/user/?_method=put" method="post">
+    <label>Username</label>
+    <input type="text" name="username" value="<%= currentUser.username %>" required>
+    <label>Email</label>
+    <input type="email" name="email" value="<%= currentUser.email %>" required>
+    <label>Profile icon link</label>
+    <% if (currentUser.icon_url === '/img/user_icon.png') { %>
+      <input type="text" name="iconUrl" placeholder="Profile icon link">
+    <% } else { %>
+      <input type="text" name="iconUrl" value="<%= currentUser.icon_url %>">
+    <% } %>
+    <button>Update</button>
+  </form>
+  
+  <form action="/user/?_method=delete" method="post">
+    <button class="delete-btn">Delete</button>
+  </form>
+
+</div>
+
+
+
+<%- contentFor('js') %>

@@ -1,12 +1,19 @@
-<p><%= error %></p>
+<div class="form">
+  <p class="error"><%= error %></p>
 
-<form action="/signup" method="post">
-  <input type="text" name="username" placeholder="Username">
-  <input type="email" name="email" placeholder="Email">
-  <input type="password" name="password" placeholder="Password">
-  <input type="password" name="rePassword" placeholder="Repeat password">
-  <button>Sign up</button>
-</form>
+  <form action="/signup" method="post">
+    <input type="text" name="username" placeholder="Username" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="password" name="password" placeholder="Password" required>
+    <input type="password" name="rePassword" placeholder="Repeat password" required>
+    <button>Sign up</button>
+  </form>
+  
+  <p>Already have an account?</p>
+  <a href="/login">Log in</a>
+  
+</div>
 
-<p>Already have an account?</p>
-<a href="/login">Log in</a>
+
+
+<%- contentFor('js') %>

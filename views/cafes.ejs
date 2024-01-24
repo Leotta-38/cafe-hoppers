@@ -1,42 +1,58 @@
-<p>Result: <%= cafes.length %></p>
+<div class="grid-wrapper1">
+  <div class="for-filter">For filter</div>
 
-<form action="/cafes">
-  <label>Sort by</label>
-  <select name="sortby">
-    <option value="rating_desc">Rating - high to low</option>
-    <option value="rating_asc">Rating - low to high</option>
-    <option value="date_desc">Date - new to old</option>
-    <option value="date_asc">Date - old to new</option>
-  </select>
-  <button>Submit</button>
-</form>
-
-<% for (let cafe of cafes) { %>
-
-  <a href="/cafes/<%= cafe.id %>">
-    <div class="cafes_box">
-      <% const photo = photos.find(({cafe_id}) => cafe_id === cafe.id) %>
-      <% if (photo) { %>
-        <img src="<%= photo.image_url %>" alt="<%= cafe.name %>">
-      <% } else { %>
-        <img src="/img/no_image.jpg" alt="no_image">
-      <% } %>  
-      <h3><%= cafe.name %></h3>
-      <% let ratingPoint = cafe.ave_review_point %>
-      <% if (ratingPoint.length === 1) { %>
-      <% ratingPoint = `${ratingPoint}.0`%>
+  <div>
+    <div class="flex-wrapper1">
+      <p>Result: <%= cafes.length %></p>
+      
+      <form action="/cafes">
+        <label>Sort by</label>
+        <select name="sortby">
+          <option value="rating_desc">Rating - high to low</option>
+          <option value="rating_asc">Rating - low to high</option>
+          <option value="date_desc">Date - new to old</option>
+          <option value="date_asc">Date - old to new</option>
+        </select>
+        <button class="sort-btn">Submit</button>
+      </form>
+    </div>
+    
+    <div class="grid-wrapper2">
+      <% for (let cafe of cafes) { %>
+        <a href="/cafes/<%= cafe.id %>">
+          <div class="cafes_box">
+            <% const photo = photos.find(({cafe_id}) => cafe_id === cafe.id) %>
+            <% if (photo) { %>
+              <img src="<%= photo.image_url %>" alt="<%= cafe.name %>">
+            <% } else { %>
+              <img src="/img/no_image.jpg" alt="no_image">
+            <% } %>
+            <div class="flex-wrapper2">
+              <h3><%= cafe.name %></h3>
+              <% let ratingPoint = cafe.ave_review_point %>
+              <% if (ratingPoint.length === 1) { %>
+              <% ratingPoint = `${ratingPoint}.0`%>
+              <% } %>
+              <p>Rating: <%= ratingPoint %></p>
+              <% let date = cafe.date.split(',').shift().split('/')%>
+              <% let temp = date[0] %>
+              <% date[0] = date[1] %>
+              <% date[1] = temp %>
+              <% if (date[1].length = 1) { %>
+              <% date[1] = `0${date[1]}`%>
+              <% } %>
+              <% date = date.join('/')%>  
+              <p>Shared on <%= date %></p>
+            </div>
+          </div>
+        </a>
+      
       <% } %>
-      <p>Rating: <%= ratingPoint %></p>
-      <% let date = cafe.date.split(',').shift().split('/')%>
-      <% let temp = date[0] %>
-      <% date[0] = date[1] %>
-      <% date[1] = temp %>
-      <% if (date[1].length = 1) { %>
-      <% date[1] = `0${date[1]}`%>
-      <% } %>
-      <% date = date.join('/')%>  
-      <p>Shared on <%= date %></p>
-      </div>
-  </a>
+  
+    </div>
+  </div>
+</div>
 
-<% } %>
+
+
+<%- contentFor('js') %>

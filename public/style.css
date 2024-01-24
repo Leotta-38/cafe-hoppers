@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap');
 
+/* global */
 * {
   margin: 0;
   padding: 0;
@@ -9,6 +10,7 @@
 body {
   background-image: url('/img/body_back.jpg');
   background-color: mistyrose;
+  font-family: 'Courgette', cursive;
 }
 
 a, p {
@@ -16,39 +18,143 @@ a, p {
   color: #666;
 }
 
+
+/* form */
+.form {
+  text-align: center;
+}
+
+.error {
+  color: darkred;
+}
+
+input {
+  display: block;
+  margin: 7px auto 20px auto;
+  width: 300px;
+  font-size: 20px;
+  padding: 8px;
+  border-radius: 7px;
+  border: 1px solid #aaa;
+  font-family: 'Courgette', cursive;
+}
+
+textarea {
+  display: block;
+  margin: 7px auto 20px auto;
+  width: 600px;
+  height: 100px;
+  font-size: 20px;
+  padding: 8px;
+  border-radius: 7px;
+  border: 1px solid #aaa;
+  font-family: 'Courgette', cursive;
+}
+
+select {
+  font-size: 14px;
+  padding: 3px;
+  border-radius: 7px;
+  border: 1px solid #aaa;
+  font-family: 'Courgette', cursive;
+}
+
+button {
+  display: block;
+  margin: 30px auto;
+  width: 300px;
+  font-size: 20px;
+  padding: 8px;
+  border-radius: 7px;
+  border: 1px solid #aaa;
+  font-family: 'Courgette', cursive;
+  background-color: aliceblue;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: lightblue;
+  transition: 1s all;
+}
+
+.form p, .form a {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.form a {
+  text-decoration: underline;
+}
+
+.delete-btn {
+  background-color: blanchedalmond;
+}
+
+.delete-btn:hover {
+  background-color: darksalmon;
+}
+
+
+/* layout */
 nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: 150px;
 }
 
 nav h1 {
-  font-family: 'Courgette', cursive;
   font-size: 75px;
-  margin: 30px;
-  display: inline-block;
+  margin-left: 35px;
+}
+
+nav ul {
+  margin-right: 35px;
 }
 
 nav li {
-  font-family: 'Courgette', cursive;
+  font-size: 18px;
   display: inline-block;
-  padding: 10px;
-  margin: 20px;
-  border: 1px solid black;
+  margin: 30px;
 }
 
-/* .container {
-  padding-top: 100px;
-} */
+nav img {
+  height: 60px;
+  vertical-align: middle;
+  border-radius: 50%;
+}
 
-.user_icon {
-  height: 50px;
+.container {
+  width: 80%;
+  margin: 20px auto;
+}
+
+footer {
+  margin: 50px 0 20px 0;
+  text-align: center;
+}
+
+
+/* home */
+.grid-title {
+  font-size: 30px;
+  margin: 15px 0;
 }
 
 .grid-wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 10px;
+  gap: 15px;
+}
+
+.grid-wrapper h2 {
+  font-size: 26px;
+  margin: 10px;
+}
+
+.grid-wrapper p {
+  font-size: 16px;
+  margin: 10px;
 }
 
 .ui-card {
@@ -57,19 +163,113 @@ nav li {
 
 .ui-card img {
   width: 100%;
+  display: block;
+}
+
+.view-all {
+  text-align: right;
+  font-size: 16px;
+  margin: 10px 0;
+  text-decoration: underline;
+}
+
+
+/* user */
+.profile {
+  text-align: center;
+}
+
+.profile img {
+  height: 250px;
+  border-radius: 50%;
+}
+
+.profile h2 {
+  font-size: 36px;
+}
+
+.profile p {
+  font-size: 20px;
+  margin: 20px 0;
+}
+
+.profile a {
+  font-size: 20px;
+  text-decoration: underline;
+}
+
+.logout-btn {
+  width: 120px;
+}
+
+
+/* cakes */
+.grid-wrapper1 {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 10px;
+}
+
+.for-filter {
+  height: 600px;
+  width: 100%;
+  background-color: #666;
+  color: white;
+}
+
+.flex-wrapper1 {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex-wrapper1 p {
+  font-size: 20px;
+}
+
+.sort-btn {
+  display: inline;
+  margin: 0 0 15px 5px;
+  width: 60px;
+  font-size: 14px;
+  padding: 3px;
+}
+
+.grid-wrapper2 {
+  display: grid;
+  gap: 10px;
 }
 
 .cafes_box {
-  border: 1px solid gray;
+  border: 1px solid #999;
+  border-radius: 15px;
+  display: flex;
 }
 
 .cafes_box img {
+  display: block;
   height: 200px;
+  margin: 5px 20px;
+  border: 1px solid #ccc;
 }
 
-.cafes_box h3 {
-  display: inline-block;
+.flex-wrapper2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
+
+.flex-wrapper2 h3 {
+  font-size: 30px;
+}
+
+.flex-wrapper2 p {
+  font-size: 20px;
+}
+
+
+
+
+
 
 .info {
   width: 80%;
@@ -137,8 +337,4 @@ nav li {
   position: absolute;
   left: 0;
   bottom: 0;
-}
-
-footer {
-  margin-top: 30px;
 }

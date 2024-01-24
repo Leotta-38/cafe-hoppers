@@ -5,19 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cafe Hoppers</title>
   <link rel="stylesheet" href="/style.css">
+  <%- js %>
 </head>
 <body>
   <nav>
     <h1><a href="/">Cafe Hoppers</a></h1>
     <ul>
-      <a href="/"><li>Home</li></a>
-      <a href="/cafes"><li>Find a cafe</li></a>
+      <li><a href="/">Home</a></li>
+      <li><a href="/cafes">Find a cafe</a></li>
       <% if (!isLoggedIn) { %>
-        <a href="/login"><li>Log in</li></a>
+        <li><a href="/login">Log in</a></li>
       <% } else { %>
-        <a href="/cafes/new"><li>Share a cafe</li></a>
+        <li><a href="/cafes/new">Share a cafe</a></li>
         <!-- <a href="/user/list"><li>List</li></a> -->
-        <a href="/user"><li><img src="<%= currentUser.icon_url %>" alt="user_icon" class="user_icon"></li></a>
+        <li><a href="/user"><img src="<%= currentUser.icon_url %>" alt="user_icon"></a></li>
       <% } %>
     </ul>
   </nav>
@@ -29,7 +30,7 @@
   </div>
 
   <footer>
-    &copy;2024
+    <p>All Contents Copyright &copy; 2024 Leoota-38 All Rights Reserved.</p>
   </footer>
 </body>
 </html>

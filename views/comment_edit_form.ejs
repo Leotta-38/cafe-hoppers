@@ -1,15 +1,25 @@
-<form action="/cafes/<%= comment.cafe_id %>/comment/<%= comment.id %>?_method=put" method="post">
-  <textarea name="comment"><%= comment.comment %></textarea>
-  <% if (photo) { %>
-    <input type="text" name="imageUrl" value="<%= photo.image_url %>">
-  <% } else { %>
-    <input type="text" name="imageUrl" placeholder="Image link">
-  <% } %>
-  <label for="">Rating</label>
-  <input type="range" name="reviewPoint" min="1" max="5" value="<%= comment.review_point %>">
-  <button>Update</button>
-</form>
+<div class="form">
 
-<form action="/cafes/<%= comment.cafe_id %>/comment/<%= comment.id %>?_method=delete" method="post">
-  <button>Delete</button>
-</form>
+  <form action="/cafes/<%= comment.cafe_id %>/comment/<%= comment.id %>?_method=put" method="post">
+    <label>Comment</label>
+    <textarea name="comment"><%= comment.comment %></textarea>
+    <label>Image link</label>
+    <% if (photo) { %>
+      <input type="text" name="imageUrl" value="<%= photo.image_url %>">
+    <% } else { %>
+      <input type="text" name="imageUrl" placeholder="Image link">
+    <% } %>
+    <label for="">Rating: <span class="rating-value"></span></label>
+    <input type="range" name="reviewPoint" min="1" max="5" step="1" value="<%= comment.review_point %>" class="rating-input">
+    <button>Update</button>
+  </form>
+  
+  <form action="/cafes/<%= comment.cafe_id %>/comment/<%= comment.id %>?_method=delete" method="post">
+    <button class="delete-btn">Delete</button>
+  </form>
+
+</div>
+
+
+<%- contentFor('js') %>
+<script src="/js/app.js" defer></script>
