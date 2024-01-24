@@ -36,7 +36,11 @@
   </div>
 
   <div class="comments">
-    <p>Rating: <%= cafe.ave_review_point %></p>
+    <% let ratingPoint = cafe.ave_review_point %>
+    <% if (ratingPoint.length === 1) { %>
+    <% ratingPoint = `${ratingPoint}.0`%>
+    <% } %>
+    <p>Rating: <%= ratingPoint %></p>
     <% for (let comment of comments) { %>
       <div class="comment">
         <img src="<%= user.icon_url %>" alt="user_icon" class="comment_user_icon">

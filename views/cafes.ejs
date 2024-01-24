@@ -1,3 +1,16 @@
+<p>Result: <%= cafes.length %></p>
+
+<form action="/cafes">
+  <label>Sort by</label>
+  <select name="sortby">
+    <option value="rating_desc">Rating - high to low</option>
+    <option value="rating_asc">Rating - low to high</option>
+    <option value="date_desc">Date - new to old</option>
+    <option value="date_asc">Date - old to new</option>
+  </select>
+  <button>Submit</button>
+</form>
+
 <% for (let cafe of cafes) { %>
 
   <a href="/cafes/<%= cafe.id %>">
@@ -9,8 +22,21 @@
         <img src="/img/no_image.jpg" alt="no_image">
       <% } %>  
       <h3><%= cafe.name %></h3>
-      <p><%= cafe.ave_review_point %></p>
-    </div>
+      <% let ratingPoint = cafe.ave_review_point %>
+      <% if (ratingPoint.length === 1) { %>
+      <% ratingPoint = `${ratingPoint}.0`%>
+      <% } %>
+      <p>Rating: <%= ratingPoint %></p>
+      <% let date = cafe.date.split(',').shift().split('/')%>
+      <% let temp = date[0] %>
+      <% date[0] = date[1] %>
+      <% date[1] = temp %>
+      <% if (date[1].length = 1) { %>
+      <% date[1] = `0${date[1]}`%>
+      <% } %>
+      <% date = date.join('/')%>  
+      <p>Shared on <%= date %></p>
+      </div>
   </a>
 
 <% } %>

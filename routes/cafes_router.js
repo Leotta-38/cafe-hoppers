@@ -2,10 +2,30 @@ const express = require('express')
 const router = express.Router()
 const db = require('../db')
 const ensureLoggedIn = require('../middlewares/ensure_logged_in')
+const { abort } = require('process')
+const sortList = {
+  item: ['rating_desc', 'rating_asc', 'date_desc', 'date_asc'],
+  class: ['ave_review_point', 'date'],
+  aord: ['ASC', 'DESC']
+}
 
 router.get('/cafes', (req, res) => {
+  const sortBy = req.query.sortby
+  let sortClass = sortList.class[0]
+  let aord = sortList.aord[1]
+
+  if (sortBy === sortList.item[1]) {
+    aord = sortList.aord[0]
+  } else if (sortBy === sortList.item[2]) {
+    sortClass = sortList.class[1]
+  } else if (sortBy === sortList.item[3]) {
+    sortClass = sortList.class[1]
+    aord = sortList.aord[0]
+  }
+
   const sql = `
-    SELECT * FROM cafes;
+    SELECT * FROM cafes
+    ORDER BY ${sortClass} ${aord};
   `
   db.query(sql, (err, result) => {
     if (err) {
@@ -86,8 +106,9 @@ router.get('/cafes/:id', (req, res) => {
 
       const sql3 = `
         SELECT * FROM comments 
-        WHERE cafe_id = $1;
-      `
+        WHERE cafe_id = $1
+        ORDER BY date DESC;
+        `
       db.query(sql3, [cafeId], (err3, result3) => {
         if (err3) {
           console.log(err3);
@@ -97,8 +118,7 @@ router.get('/cafes/:id', (req, res) => {
 
         const sql4 = `
           SELECT * FROM photos 
-          WHERE cafe_id = $1
-          ORDER BY date;
+          WHERE cafe_id = $1;
         `
         db.query(sql4, [cafeId], (err4, result4) => {
           if (err4) {
@@ -321,31 +341,52 @@ router.put('/cafes/:cafeId/comment/:id', ensureLoggedIn, (req, res) => {
           console.log(err3);
         }
 
-        if (imageUrl) {
-          const sql4 = `
-            UPDATE photos SET 
-              image_url = $1, 
-              date = $2
-            WHERE comment_id = $3;
-          `
-          db.query(sql4, [imageUrl, date, id], (err4, result4) => {
-            if (err4) {
-              console.log(err4)
-            }
-            res.redirect(`/cafes/${cafeId}`)
-          })
-        } else {
-          const sql4 = `
-            DELETE FROM photos 
-            WHERE comment_id = $1;
-          `
-          db.query(sql4, [id], (err4, result4) => {
-            if (err4) {
-              console.log(err4)
-            }
-            res.redirect(`/cafes/${cafeId}`)
-          })
-        }
+        const sql4 = `
+          SELECT * FROM photos 
+          WHERE comment_id = $1
+        `
+        db.query(sql4, [id], (err4, result4) => {
+          if (err4) {
+            console.log(err4);
+          }
+
+          if (result4.rows.length === 0) {
+            const sql5 = `
+              INSERT INTO photos (image_url, cafe_id, user_id, comment_id, date, likes) 
+              VALUES ($1, $2, $3, $4, $5, $6);
+            `
+            db.query(sql5, [imageUrl, cafeId, req.session.userId, id, date, 0], (err5, result5) => {
+              if (err5) {
+                console.log(err5)
+              }
+              res.redirect(`/cafes/${cafeId}`)
+            })
+          } else if (imageUrl) {
+            const sql5 = `
+              UPDATE photos SET 
+                image_url = $1, 
+                date = $2
+              WHERE comment_id = $3;
+            `
+            db.query(sql5, [imageUrl, date, id], (err5, result5) => {
+              if (err5) {
+                console.log(err5)
+              }
+              res.redirect(`/cafes/${cafeId}`)
+            })
+          } else {
+            const sql5 = `
+              DELETE FROM photos 
+              WHERE comment_id = $1;
+            `
+            db.query(sql5, [id], (err5, result5) => {
+              if (err5) {
+                console.log(err5)
+              }
+              res.redirect(`/cafes/${cafeId}`)
+            })
+          }
+        })
       })
     })
   })
