@@ -108,7 +108,7 @@ router.get('/cafes/:id', (req, res) => {
         SELECT * FROM comments 
         WHERE cafe_id = $1
         ORDER BY date DESC;
-        `
+      `
       db.query(sql3, [cafeId], (err3, result3) => {
         if (err3) {
           console.log(err3);

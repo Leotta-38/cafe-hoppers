@@ -3,11 +3,11 @@
   <form action="/cafes/<%= comment.cafe_id %>/comment/<%= comment.id %>?_method=put" method="post">
     <label>Comment</label>
     <textarea name="comment"><%= comment.comment %></textarea>
-    <label>Image link</label>
+    <label>Photo link</label>
     <% if (photo) { %>
       <input type="text" name="imageUrl" value="<%= photo.image_url %>">
     <% } else { %>
-      <input type="text" name="imageUrl" placeholder="Image link">
+      <input type="text" name="imageUrl" placeholder="Photo link">
     <% } %>
     <label for="">Rating: <span class="rating-value"></span></label>
     <input type="range" name="reviewPoint" min="1" max="5" step="1" value="<%= comment.review_point %>" class="rating-input">

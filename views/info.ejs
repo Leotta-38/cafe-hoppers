@@ -74,13 +74,19 @@
     </div>
   <% } %>
 
-  <form action="/cafes/<%= cafe.id %>/comment" method="post">
-    <textarea name="comment" placeholder="Comment"></textarea>
-    <input type="text" name="imageUrl" placeholder="Image link">
-    <label for="">Rating: <span class="rating-value"></span></label>
-    <input type="range" name="reviewPoint" min="1" max="5" step="1" class="rating-input">
-    <button>Comment</button>
-  </form>
+    <div class="comment-form">
+      <form action="/cafes/<%= cafe.id %>/comment" method="post">
+        <div>
+          <textarea name="comment" placeholder="Comment"></textarea>
+        </div>
+        <div>
+          <input type="text" name="imageUrl" placeholder="Photo link">
+          <label for="">Rating: <span class="rating-value"></span></label>
+          <input type="range" name="reviewPoint" min="1" max="5" step="1" class="rating-input">
+          <button class="comment-btn">Comment</button>
+        </div>
+      </form>
+    </div>
   </div>
 </section>
 
