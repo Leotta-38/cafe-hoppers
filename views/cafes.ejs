@@ -8,10 +8,10 @@
       <form action="/cafes">
         <label>Sort by</label>
         <select name="sortby">
-          <option value="rating_desc">Rating - high to low</option>
-          <option value="rating_asc">Rating - low to high</option>
-          <option value="date_desc">Date - new to old</option>
-          <option value="date_asc">Date - old to new</option>
+          <option value="rating_desc" <%= ratingDesc %>>Rating - high to low</option>
+          <option value="rating_asc" <%= ratingAsc %>>Rating - low to high</option>
+          <option value="date_desc" <%= dateDesc %>>Date - new to old</option>
+          <option value="date_asc" <%= dateAsc %>>Date - old to new</option>
         </select>
         <button class="sort-btn">Submit</button>
       </form>

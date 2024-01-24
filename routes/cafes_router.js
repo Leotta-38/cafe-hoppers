@@ -14,13 +14,21 @@ router.get('/cafes', (req, res) => {
   let sortClass = sortList.class[0]
   let aord = sortList.aord[1]
 
+  let ratingDesc = ''
+  let ratingAsc = ''
+  let dateDesc = ''
+  let dateAsc = ''
+
   if (sortBy === sortList.item[1]) {
     aord = sortList.aord[0]
+    ratingAsc = 'selected'
   } else if (sortBy === sortList.item[2]) {
     sortClass = sortList.class[1]
+    dateDesc = 'selected'
   } else if (sortBy === sortList.item[3]) {
     sortClass = sortList.class[1]
     aord = sortList.aord[0]
+    dateAsc = 'selected'
   }
 
   const sql = `
@@ -45,7 +53,11 @@ router.get('/cafes', (req, res) => {
       let photos = result2.rows
       res.render('cafes', {
         cafes: cafes,
-        photos: photos
+        photos: photos,
+        ratingDesc: ratingDesc,
+        ratingAsc: ratingAsc,
+        dateDesc: dateDesc,
+        dateAsc: dateAsc
       })
     })
   })
