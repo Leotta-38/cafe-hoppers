@@ -38,3 +38,4 @@ CREATE TABLE photos(
   date TEXT,
   likes INTEGER
 );
+

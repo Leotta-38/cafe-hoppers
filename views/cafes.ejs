@@ -2,7 +2,7 @@
 
   <a href="/cafes/<%= cafe.id %>">
     <div class="cafes_box">
-      <% const photo = photos.find(e => e.cafe_id === cafe.id) %>
+      <% const photo = photos.find(({cafe_id}) => cafe_id === cafe.id) %>
       <% if (photo) { %>
         <img src="<%= photo.image_url %>" alt="<%= cafe.name %>">
       <% } else { %>

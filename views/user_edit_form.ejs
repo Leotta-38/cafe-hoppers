@@ -1,0 +1,14 @@
+<form action="/user/?_method=put" method="post">
+  <input type="text" name="username" value="<%= currentUser.username %>">
+  <input type="email" name="email" value="<%= currentUser.email %>">
+  <% if (currentUser.icon_url === '/img/user_icon.png') { %>
+    <input type="text" name="iconUrl" placeholder="icon link">
+  <% } else { %>
+    <input type="text" name="iconUrl" value="<%= currentUser.icon_url %>">
+  <% } %>
+  <button>Update</button>
+</form>
+
+<form action="/user/?_method=delete" method="post">
+  <button>Delete</button>
+</form>

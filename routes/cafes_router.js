@@ -54,7 +54,7 @@ router.post('/cafes', ensureLoggedIn, (req, res) => {
   })
 })
 
-router.get('/cafes/new', (req, res) => {
+router.get('/cafes/new', ensureLoggedIn, (req, res) => {
   res.render('cafe_new_form')
 })
 
@@ -97,7 +97,8 @@ router.get('/cafes/:id', (req, res) => {
 
         const sql4 = `
           SELECT * FROM photos 
-          WHERE cafe_id = $1;
+          WHERE cafe_id = $1
+          ORDER BY date;
         `
         db.query(sql4, [cafeId], (err4, result4) => {
           if (err4) {
@@ -180,7 +181,7 @@ router.post('/cafes/:id/comment', ensureLoggedIn, (req, res) => {
   let imageUrl = req.body.imageUrl
   let cafeId = req.params.id
   let userId = req.session.userId
-  let date = new Date().toLocaleDateString()
+  let date = new Date().toLocaleString()
   let reviewPoint = req.body.reviewPoint
   let likes = 0
 
@@ -197,43 +198,46 @@ router.post('/cafes/:id/comment', ensureLoggedIn, (req, res) => {
     let commentId = result.rows[0].id
 
     const sql2 = `
-      INSERT INTO photos (image_url, cafe_id, user_id, comment_id, date, likes) 
-      VALUES ($1, $2, $3, $4, $5, $6);
-    `
-    db.query(sql2, [imageUrl, cafeId, userId, commentId, date, likes], (err2, result2) => {
-      if (err2) {
-        console.log(err2)
-      }
-    })
-
-    const sql3 = `
       SELECT review_point FROM comments 
       WHERE cafe_id = $1;
     `
-    db.query(sql3, [cafeId], (err3, result3) => {
-      if (err3) {
-        console.log(err3);
+    db.query(sql2, [cafeId], (err2, result2) => {
+      if (err2) {
+        console.log(err2);
       }
 
-      let reviewPoints = result3.rows
+      let reviewPoints = result2.rows
       let sumReviewPoints = 0
       for (let reviewPoint of reviewPoints) {
         sumReviewPoints += Number(reviewPoint.review_point)
       }
-      let averageReviewPoints = sumReviewPoints / result3.rows.length
+      let averageReviewPoints = sumReviewPoints / result2.rows.length
       let roundedAveReviewPoints = Math.round(averageReviewPoints * 10) / 10
 
-      const sql4 = `
+      const sql3 = `
         UPDATE cafes SET 
           ave_review_point = $1
         WHERE id = $2;
       `
-      db.query(sql4, [roundedAveReviewPoints, cafeId], (err4, result4) => {
-        if (err4) {
-          console.log(err4);
+      db.query(sql3, [roundedAveReviewPoints, cafeId], (err3, result3) => {
+        if (err3) {
+          console.log(err3);
         }
 
-        res.redirect(`/cafes/${cafeId}`)
+        if (imageUrl) {
+          const sql4 = `
+            INSERT INTO photos (image_url, cafe_id, user_id, comment_id, date, likes) 
+            VALUES ($1, $2, $3, $4, $5, $6);
+          `
+          db.query(sql4, [imageUrl, cafeId, userId, commentId, date, likes], (err4, result4) => {
+            if (err4) {
+              console.log(err4)
+            }
+            res.redirect(`/cafes/${cafeId}`)
+          })
+        } else {
+          res.redirect(`/cafes/${cafeId}`)
+        }
       })
     })
   })
@@ -273,6 +277,7 @@ router.get('/cafes/*/comment/:id', ensureLoggedIn, (req, res) => {
 router.put('/cafes/:cafeId/comment/:id', ensureLoggedIn, (req, res) => {
   let comment = req.body.comment
   let imageUrl = req.body.imageUrl
+  let date = new Date().toLocaleString()
   let reviewPoint = req.body.reviewPoint
   let id = req.params.id
   let cafeId = req.params.cafeId
@@ -280,53 +285,67 @@ router.put('/cafes/:cafeId/comment/:id', ensureLoggedIn, (req, res) => {
   const sql = `
     UPDATE comments SET 
       comment = $1, 
-      review_point = $2 
-    WHERE id = $3;
+      date = $2,
+      review_point = $3 
+    WHERE id = $4;
   `
-  db.query(sql, [comment, reviewPoint, id], (err, result) => {
+  db.query(sql, [comment, date, reviewPoint, id], (err, result) => {
     if (err) {
       console.log(err);
     }
 
     const sql2 = `
-      UPDATE photos SET 
-        image_url = $1
-      WHERE comment_id = $2;
+      SELECT review_point FROM comments 
+      WHERE cafe_id = $1;
     `
-    db.query(sql2, [imageUrl, id], (err2, result2) => {
+    db.query(sql2, [cafeId], (err2, result2) => {
       if (err2) {
         console.log(err2);
       }
 
+      let reviewPoints = result2.rows
+      let sumReviewPoints = 0
+      for (let reviewPoint of reviewPoints) {
+        sumReviewPoints += Number(reviewPoint.review_point)
+      }
+      let averageReviewPoints = sumReviewPoints / result2.rows.length
+      let roundedAveReviewPoints = Math.round(averageReviewPoints * 10) / 10
+
       const sql3 = `
-        SELECT review_point FROM comments 
-        WHERE cafe_id = $1;
+        UPDATE cafes SET 
+          ave_review_point = $1
+        WHERE id = $2;
       `
-      db.query(sql3, [cafeId], (err3, result3) => {
+      db.query(sql3, [roundedAveReviewPoints, cafeId], (err3, result3) => {
         if (err3) {
           console.log(err3);
         }
 
-        let reviewPoints = result3.rows
-        let sumReviewPoints = 0
-        for (let reviewPoint of reviewPoints) {
-          sumReviewPoints += Number(reviewPoint.review_point)
+        if (imageUrl) {
+          const sql4 = `
+            UPDATE photos SET 
+              image_url = $1, 
+              date = $2
+            WHERE comment_id = $3;
+          `
+          db.query(sql4, [imageUrl, date, id], (err4, result4) => {
+            if (err4) {
+              console.log(err4)
+            }
+            res.redirect(`/cafes/${cafeId}`)
+          })
+        } else {
+          const sql4 = `
+            DELETE FROM photos 
+            WHERE comment_id = $1;
+          `
+          db.query(sql4, [id], (err4, result4) => {
+            if (err4) {
+              console.log(err4)
+            }
+            res.redirect(`/cafes/${cafeId}`)
+          })
         }
-        let averageReviewPoints = sumReviewPoints / result3.rows.length
-        let roundedAveReviewPoints = Math.round(averageReviewPoints * 10) / 10
-
-        const sql4 = `
-          UPDATE cafes SET 
-            ave_review_point = $1
-          WHERE id = $2;
-        `
-        db.query(sql4, [roundedAveReviewPoints, cafeId], (err4, result4) => {
-          if (err4) {
-            console.log(err4);
-          }
-
-          res.redirect(`/cafes/${cafeId}`)
-        })
       })
     })
   })

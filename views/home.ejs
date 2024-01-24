@@ -7,7 +7,7 @@
       <a href="/cafes/<%= cafes1[i].id %>">
         <h2><%= cafes1[i].name %></h2>
         <p>Rating: <%= cafes1[i].ave_review_point %></p>
-        <% const photo = photos.find(e => e.cafe_id === cafes1[i].id) %>
+        <% const photo = photos.find(({cafe_id}) => cafe_id === cafes1[i].id) %>
         <% if (photo) { %>
           <img src="<%= photo.image_url %>" alt="<%= cafes1[i].name %>">
         <% } else { %>
@@ -33,9 +33,12 @@
         <% let temp = date[0] %>
         <% date[0] = date[1] %>
         <% date[1] = temp %>
+        <% if (date[1].length = 1) { %>
+        <% date[1] = `0${date[1]}`%>
+        <% } %>
         <% date = date.join('/')%>  
         <p>Shared on: <%= date %></p>
-        <% const photo = photos.find(e => e.cafe_id === cafes2[i].id) %>
+        <% const photo = photos.find(({cafe_id}) => cafe_id  === cafes2[i].id) %>
         <% if (photo) { %>
           <img src="<%= photo.image_url %>" alt="<%= cafes2[i].name %>">
         <% } else { %>

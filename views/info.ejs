@@ -2,12 +2,16 @@
  
   <h1><%= cafe.name %></h1>
 
-  <% const photo = photos.find(e => e.cafe_id === cafe.id) %>
-  <% if (photo) { %>
-    <img src="<%= photo.image_url %>" alt="<%= cafe.name %>" class="cafe_photo">
-  <% } else { %>
-    <img src="/img/no_image.jpg" alt="no_image" class="cafe_photo">
-  <% } %>  
+  <div class="contents">
+    <figure>
+      <% const photo = photos.filter(({cafe_id}) => cafe_id === cafe.id) %>
+      <% if (photo.length === 0) { %>
+        <img src="/img/no_image.jpg" alt="no_image" class="cafe_photo">
+      <% } else { %>
+        <img src="<%= photo[0].image_url %>" alt="<%= cafe.name %>" class="cafe_photo">
+      <% } %>
+    </figure>
+  </div>
 
   <div class="cafe_about">
     <div class="grid-item">      
@@ -20,9 +24,11 @@
       <% let temp = date[0] %>
       <% date[0] = date[1] %>
       <% date[1] = temp %>
+      <% if (date[1].length = 1) { %>
+      <% date[1] = `0${date[1]}`%>
+      <% } %>
       <% date = date.join('/')%>
-      <p>Shared on <%= date %></p>
-      <p>Shared by <%= user.username %></p>
+      <p>Shared by <%= user.username %> on <%= date %></p>
       <% if (user.id === currentUser.id) { %>
         <a href="/cafes/<%= cafe.id %>/edit">Edit</a>
       <% } %>
@@ -35,11 +41,21 @@
       <div class="comment">
         <img src="<%= user.icon_url %>" alt="user_icon" class="comment_user_icon">
         <p class="comment_username"><%= user.username %></p>
-        <p class="comment_date"><%= comment.date %></p>
+        <% let date = comment.date.split('/')%>
+        <% let temp = date[0] %>
+        <% date[0] = date[1] %>
+        <% date[1] = temp %>
+        <% if (date[1].length = 1) { %>
+        <% date[1] = `0${date[1]}`%>
+        <% } %>    
+        <% date = date.join('/')%>  
+        <p class="comment_date"><%= date %></p>
         <p class="comment_review_point">Rating: <%= comment.review_point %></p>
         <p class="comment_comment"><%= comment.comment %></p>
-        <% const photo = photos.find(e => e.comment_id === comment.id) %>
-        <img src="<%= photo.image_url %>" class="comment_photo">
+        <% const photo = photos.find(({comment_id}) => comment_id === comment.id) %>
+        <% if (photo) { %>
+          <img src="<%= photo.image_url %>" class="comment_photo">
+        <% } %>
         <% if (user.id === currentUser.id) { %>
           <a href="/cafes/<%= cafe.id %>/comment/<%= comment.id %>" class="comment_edit">Edit</a>
         <% } %>
@@ -48,7 +64,7 @@
   
     <form action="/cafes/<%= cafe.id %>/comment" method="post">
       <textarea name="comment" placeholder="Comment"></textarea>
-      <input type="text" name="imageUrl" placeholder="Image url">
+      <input type="text" name="imageUrl" placeholder="Image link">
       <label for="">Rating</label>
       <input type="range" name="reviewPoint" min="1" max="5">
       <button>Comment</button>
