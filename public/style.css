@@ -9,7 +9,6 @@
 
 body {
   background-image: url('/img/body_back.jpg');
-  background-color: mistyrose;
   font-family: 'Courgette', cursive;
 }
 
@@ -42,7 +41,7 @@ input {
 textarea {
   display: block;
   margin: 7px auto 20px auto;
-  width: 600px;
+  width: 400px;
   height: 100px;
   font-size: 20px;
   padding: 8px;
@@ -148,7 +147,7 @@ footer {
 }
 
 .grid-wrapper h2 {
-  font-size: 26px;
+  font-size: 1.2vw;
   margin: 10px;
 }
 
@@ -256,6 +255,7 @@ footer {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  text-align: left;
 }
 
 .flex-wrapper2 h3 {
@@ -266,75 +266,109 @@ footer {
   font-size: 20px;
 }
 
+.flex-wrapper2 a {
+  text-decoration: underline;
+}
 
 
-
-
-
+/* info */
 .info {
-  width: 80%;
-  margin: 0 auto;
   text-align: center;
 }
 
-.cafe_photo {
-  width: 40%;
+.info h1 {
+  font-size: 40px;
+}
+
+.info h2 {
+  font-size: 30px;
+  margin-top: 20px;
+}
+
+.cafe-photos {
+  margin: 10px auto;
+  width: 60%;
+}
+
+.cafe-photos img {
+  width: 100%;
 }
 
 .cafe_about {
   display: grid;
+  width: 80%;
+  margin: 10px auto;
   grid-template-columns: 1fr 1fr;
+  gap: 20px;
 }
 
 .cafe_about iframe {
   width: 100%;
 }
 
-.comment {
-  border: 1px solid gray;
-  position: relative;
+.reviews {
+  margin: 10px auto;
   width: 80%;
+}
+
+.review {
+  border: 1px solid gray;
+  display: flex;
+  justify-content: space-between;
   background-color: white;
-  margin: 0 auto;
-  height: 100px;
+  margin: 5px auto;
 }
 
-.comment_user_icon {
-  position: absolute;
-  height: 20px;
-  left: 0;
+.review > div {
+  text-align: left;
+  flex-grow: 1;
 }
 
-.comment_username {
-  position: absolute;
-  left: 30px;
+.review > div > div + div + p {
+  margin: 5px ;
 }
 
-.comment_date {
-  position: absolute;
-  right: 0;
+.review p {
+  display: inline-block;
 }
 
-.comment_review_point {
-  position: absolute;
-  right: 240px;
+.flex-wrapper3 {
+  display: flex;
+  align-items: center;
 }
 
-.comment_comment {
-  position: absolute;
-  top: 20px;
+.flex-wrapper3 p {
+  font-size: 18px;
 }
 
-.comment_photo {
-  position: absolute;
-  top: 20px;
-  right: 0;
-  height: 75px;
-  width: auto;
+.flex-wrapper3 > p + p {
+  margin-left: auto;
+  margin-right: 5px;
+  font-size: 14px;
 }
 
-.comment_edit {
-  position: absolute;
-  left: 0;
-  bottom: 0;
+.flex-wrapper3 > img {
+  height: 40px;
+  border-radius: 50%;
+  margin: 5px
+}
+
+.flex-wrapper4 {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px dotted gray;
+}
+
+.flex-wrapper4 p {
+  margin: 0 5px 5px 5px;
+}
+
+.flex-wrapper4 a {
+  text-decoration: underline;
+}
+
+.review_photo {
+  height: 150px;
+  display: block;
+  margin: 5px;
 }
