@@ -29,7 +29,7 @@ She likes the rating system and being able to share the photos of the cafes she 
 
   - Node.js (Express, ejs)
 
-  - PostgresSQL
+  - PostgreSQL
 
 ## What I like about my web application
 
@@ -37,7 +37,7 @@ She likes the rating system and being able to share the photos of the cafes she 
 
 ## What was challenging
 
-- To decide what tables and columns are needed to make the rating system.
+- To decide what tables and columns are needed to allow users to write comments and post a photo.
 
 - To implement user-friendly interfaces.
 

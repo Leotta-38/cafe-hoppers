@@ -42,6 +42,9 @@ app.use(homeRouter)
 app.use(sessionRouter)
 app.use(userRouter)
 app.use(cafesRouter)
+app.get('/*', (req, res) => {
+  res.redirect('/')
+})
 
 app.listen(port, () => {
   console.log(`listening on port ${port}`);

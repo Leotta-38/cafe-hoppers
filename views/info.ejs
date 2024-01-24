@@ -34,6 +34,7 @@
       <% date[1] = `0${date[1]}`%>
       <% } %>
       <% date = date.join('/')%>
+      <% const user = users.find(({id}) => id === cafe.user_id) %>
       <p>Shared by <%= user.username %> on <%= date %></p>
       <% if (user.id === currentUser.id) { %>
         <p><a href="/cafes/<%= cafe.id %>/edit">Edit</a></p>
@@ -47,6 +48,7 @@
     <div class="review">
       <div>
         <div class="flex-wrapper3">
+          <% const user = users.find(({id}) => id === comment.user_id) %>
           <img src="<%= user.icon_url %>" alt="user_icon">
           <p><%= user.username %></p>
           <% let date = comment.date.split('/')%>

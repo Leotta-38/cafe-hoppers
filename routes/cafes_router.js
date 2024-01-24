@@ -4,8 +4,8 @@ const db = require('../db')
 const ensureLoggedIn = require('../middlewares/ensure_logged_in')
 const { abort } = require('process')
 const sortList = {
-  item: ['rating_desc', 'rating_asc', 'date_desc', 'date_asc'],
-  class: ['ave_review_point', 'date'],
+  item: ['rating_desc', 'rating_asc', 'name_desc', 'name_asc', 'date_desc', 'date_asc'],
+  class: ['ave_review_point', 'name', 'date'],
   aord: ['ASC', 'DESC']
 }
 
@@ -16,6 +16,8 @@ router.get('/cafes', (req, res) => {
 
   let ratingDesc = ''
   let ratingAsc = ''
+  let nameDesc = ''
+  let nameAsc = ''
   let dateDesc = ''
   let dateAsc = ''
 
@@ -24,9 +26,16 @@ router.get('/cafes', (req, res) => {
     ratingAsc = 'selected'
   } else if (sortBy === sortList.item[2]) {
     sortClass = sortList.class[1]
-    dateDesc = 'selected'
+    nameDesc = 'selected'
   } else if (sortBy === sortList.item[3]) {
     sortClass = sortList.class[1]
+    aord = sortList.aord[0]
+    nameAsc = 'selected'
+  } else if (sortBy === sortList.item[4]) {
+    sortClass = sortList.class[2]
+    dateDesc = 'selected'
+  } else if (sortBy === sortList.item[5]) {
+    sortClass = sortList.class[2]
     aord = sortList.aord[0]
     dateAsc = 'selected'
   }
@@ -56,6 +65,8 @@ router.get('/cafes', (req, res) => {
         photos: photos,
         ratingDesc: ratingDesc,
         ratingAsc: ratingAsc,
+        nameDesc: nameDesc,
+        nameAsc: nameAsc,
         dateDesc: dateDesc,
         dateAsc: dateAsc
       })
@@ -106,15 +117,14 @@ router.get('/cafes/:id', (req, res) => {
     let cafe = result.rows[0]
 
     const sql2 = `
-      SELECT * FROM users 
-      WHERE id = $1;
+      SELECT * FROM users;
     `
-    db.query(sql2, [cafe.user_id], (err2, result2) => {
+    db.query(sql2, (err2, result2) => {
       if (err2) {
         console.log(err2);
       }
 
-      let user = result2.rows[0]
+      let users = result2.rows
 
       const sql3 = `
         SELECT * FROM comments 
@@ -140,7 +150,7 @@ router.get('/cafes/:id', (req, res) => {
           let photos = result4.rows
           res.render('info', {
             cafe: cafe,
-            user: user,
+            users: users,
             comments: comments,
             photos: photos
           })
