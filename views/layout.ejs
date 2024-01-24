@@ -8,23 +8,25 @@
 </head>
 <body>
   <nav>
-    <a href="/">
-      <h1>Cafe Hoppers</h1>
-    </a>
+    <h1><a href="/">Cafe Hoppers</a></h1>
     <ul>
-      <a href="/"><li>home</li></a>
-      <a href="/cafes"><li>find a cafe</li></a>
+      <a href="/"><li>Home</li></a>
+      <a href="/cafes"><li>Find a cafe</li></a>
       <% if (!isLoggedIn) { %>
-        <a href="/login"><li>log in</li></a>
+        <a href="/login"><li>Log in</li></a>
       <% } else { %>
-        <a href="/cafes/new"><li>share a cafe</li></a>
-        <a href="/user/list"><li>list</li></a>
+        <a href="/cafes/new"><li>Share a cafe</li></a>
+        <!-- <a href="/user/list"><li>List</li></a> -->
         <a href="/user"><li><img src="<%= currentUser.icon_url %>" alt="user_icon" class="user_icon"></li></a>
       <% } %>
     </ul>
   </nav>
 
-  <%- body %>
+  <div class="container">
+  
+    <%- body %>
+
+  </div>
 
   <footer>
     &copy;2024

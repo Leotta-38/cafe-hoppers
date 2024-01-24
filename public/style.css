@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -5,36 +7,39 @@
 }
 
 body {
+  background-image: url('/img/body_back.jpg');
   background-color: mistyrose;
 }
 
-a {
+a, p {
   text-decoration: none;
+  color: #666;
 }
 
-
 nav {
-  background-color: aquamarine;
-  /* position: fixed; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 nav h1 {
-  font-size: 50px;
-  padding: 20px;
+  font-family: 'Courgette', cursive;
+  font-size: 75px;
+  margin: 30px;
   display: inline-block;
-}
-
-nav ul {
-  float: right;
 }
 
 nav li {
+  font-family: 'Courgette', cursive;
   display: inline-block;
-  background-color: cornflowerblue;
-  border: 1px solid gray;
   padding: 10px;
-  margin: 10px;
+  margin: 20px;
+  border: 1px solid black;
 }
+
+/* .container {
+  padding-top: 100px;
+} */
 
 .user_icon {
   height: 50px;
