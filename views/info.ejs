@@ -6,11 +6,16 @@
     <figure>
       <% const photo = photos.filter(({cafe_id}) => cafe_id === cafe.id) %>
       <% if (photo.length === 0) { %>
-        <img src="/img/no_image.jpg" alt="no_image">
+        <img src="/img/no_image.jpg" alt="no_image" class="cafe-photo">
       <% } else { %>
-        <img src="<%= photo[0].image_url %>" alt="<%= cafe.name %>">
-      <% } %>
+        <img src="<%= photo[0].image_url %>" alt="<%= cafe.name %>" class="cafe-photo">
+        <% } %>
     </figure>
+    <ul class="btn-list">
+      <% for (let photo of photos) { %>
+        <li class="photo-btn" href="<%= photo.image_url%>"><img src="<%= photo.image_url%>"></li>
+      <% } %>
+    </ul>
   </div>
       
   <h2>About</h2>
@@ -94,4 +99,6 @@
 
 
 <%- contentFor('js') %>
+<script src="/js/jquery-3.7.1.min.js" defer></script>
 <script src="/js/app.js" defer></script>
+<script src="/js/app2.js" defer></script>

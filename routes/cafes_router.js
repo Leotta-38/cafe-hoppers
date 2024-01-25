@@ -415,11 +415,14 @@ router.put('/cafes/:cafeId/comment/:id', ensureLoggedIn, (req, res) => {
 })
 
 router.delete('/cafes/:cafeId/comment/:id', ensureLoggedIn, (req, res) => {
+  const cafeId = req.params.cafeId
+  const commentId = req.params.id
+
   const sql = `
     DELETE FROM comments
     WHERE id = $1;
   `
-  db.query(sql, [req.params.id], (err, result) => {
+  db.query(sql, [commentId], (err, result) => {
     if (err) {
       console.log(err);
     }
@@ -428,12 +431,40 @@ router.delete('/cafes/:cafeId/comment/:id', ensureLoggedIn, (req, res) => {
       DELETE FROM photos
       WHERE comment_id = $1;
     `
-    db.query(sql2, [req.params.id], (err2, result2) => {
+    db.query(sql2, [commentId], (err2, result2) => {
       if (err2) {
         console.log(err2);
       }
 
-      res.redirect(`/cafes/${req.params.cafeId}`)
+      const sql3 = `
+        SELECT review_point FROM comments 
+        WHERE cafe_id = $1;
+      `
+      db.query(sql3, [cafeId], (err3, result3) => {
+        if (err3) {
+          console.log(err3);
+        }
+
+        let reviewPoints = result3.rows
+        let sumReviewPoints = 0
+        for (let reviewPoint of reviewPoints) {
+          sumReviewPoints += Number(reviewPoint.review_point)
+        }
+        let averageReviewPoints = sumReviewPoints / result3.rows.length
+        let roundedAveReviewPoints = Math.round(averageReviewPoints * 10) / 10
+
+        const sql4 = `
+          UPDATE cafes SET 
+            ave_review_point = $1
+          WHERE id = $2;
+        `
+        db.query(sql4, [roundedAveReviewPoints, cafeId], (err4, result4) => {
+          if (err4) {
+            console.log(err4);
+          }
+          res.redirect(`/cafes/${req.params.cafeId}`)
+        })
+      })
     })
   })
 })

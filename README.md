@@ -17,7 +17,7 @@ She likes the rating system and being able to share the photos of the cafes she 
 
 ## Technologies Used
 
-- FrontEnd 
+- Frontend 
 
   - HTML
   
@@ -25,7 +25,7 @@ She likes the rating system and being able to share the photos of the cafes she 
   
   - JavaScript 
 
-- BackEnd
+- Backend
 
   - Node.js (Express, ejs)
 
@@ -45,7 +45,9 @@ She likes the rating system and being able to share the photos of the cafes she 
 
 ## Bugs to fix
 
-- So far no bugs have been found, but there may be some hidden ones.
+- The date and time when you posted is based on the server which is located in the US.
+
+- When you type "hostname/cafes/aaa" in the address bar, the server will crash.
 
 ## Future features
 

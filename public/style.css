@@ -17,6 +17,10 @@ a, p, h1, h2 {
   color: #666;
 }
 
+li {
+  list-style: none;
+}
+
 
 /* form */
 .form {
@@ -296,6 +300,23 @@ footer {
 }
 
 .cafe-photos img {
+  width: 100%;
+}
+
+.btn-list {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.photo-btn {
+  padding: 1rem;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.photo-btn img {
+  pointer-events: none;
   width: 100%;
 }
 
