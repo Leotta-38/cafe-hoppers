@@ -5,11 +5,14 @@ My partner is a cafe lover and she asked me to develop a web application to stor
 She likes the rating system and being able to share the photos of the cafes she went to with others.
 ```
 
-## [Click here](#) to Cafe Hoppers
+## [Click here](https://cafe-hoppers-zhdj.onrender.com/) to Cafe Hoppers
 
 ## Screenshot
 
-![screenshot](/image/screenshot.png)
+![screenshot](/image/screenshot1.png)
+
+![screenshot](/image/screenshot2.png)
+
 
 ## Planning
 

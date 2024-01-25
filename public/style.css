@@ -167,6 +167,7 @@ footer {
 
 .ui-card {
   border: 1px solid gray;
+  background-color: #fff;
 }
 
 .ui-card img {
@@ -211,7 +212,7 @@ footer {
 }
 
 
-/* cakes */
+/* cafes */
 .grid-wrapper1 {
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -301,6 +302,7 @@ footer {
 
 .cafe-photos img {
   width: 100%;
+  display: block;
 }
 
 .btn-list {
@@ -318,6 +320,7 @@ footer {
 .photo-btn img {
   pointer-events: none;
   max-width: 150px;
+  display: block;
 }
 
 .cafe_about {
