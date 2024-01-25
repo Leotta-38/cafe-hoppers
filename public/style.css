@@ -317,7 +317,7 @@ footer {
 
 .photo-btn img {
   pointer-events: none;
-  max-width: 20%;
+  max-width: 150px;
 }
 
 .cafe_about {
