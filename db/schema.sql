@@ -16,7 +16,7 @@ CREATE TABLE cafes(
   website TEXT,
   date TEXT,
   user_id INTEGER,
-  ave_review_point DECIMAL(3,2)
+  ave_review_point DECIMAL(2,1)
 );
 
 CREATE TABLE comments(
