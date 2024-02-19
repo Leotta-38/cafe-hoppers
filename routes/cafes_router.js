@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 const db = require('../db')
 const ensureLoggedIn = require('../middlewares/ensure_logged_in')
-const { abort } = require('process')
 const sortList = {
   item: ['rating_desc', 'rating_asc', 'name_desc', 'name_asc', 'date_desc', 'date_asc'],
   class: ['ave_review_point', 'name', 'date'],
@@ -40,8 +39,17 @@ router.get('/cafes', (req, res) => {
     dateAsc = 'selected'
   }
 
+  let low = 0
+  let high = 5
+
+  if (req.query.min) {
+    low = Number(req.query.min)
+    high = Number(req.query.max)
+  }
+
   const sql = `
-    SELECT * FROM cafes
+    SELECT * FROM cafes 
+    WHERE ave_review_point BETWEEN ${low} AND ${high} 
     ORDER BY ${sortClass} ${aord};
   `
   db.query(sql, (err, result) => {

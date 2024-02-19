@@ -12,7 +12,7 @@ body {
   font-family: 'Courgette', cursive;
 }
 
-a, p, h1, h2 {
+a, p, h1, h2, h3 {
   text-decoration: none;
   color: #666;
 }
@@ -220,10 +220,33 @@ footer {
 }
 
 .for-filter {
-  height: 600px;
+  height: 250px;
   width: 100%;
-  background-color: #666;
-  color: white;
+  border-radius: 20px;
+  border: 1px solid #999;
+  background-color: #eee;
+}
+
+.noUiSlider-wrap h1 {
+  font-size: 30px;
+  padding: 10px;
+}
+
+.noUiSlider-wrap button {
+  margin: 15px;
+  width: 60px;
+  font-size: 14px;
+  padding: 3px;
+}
+
+.noUiSlider-wrap h3 {
+  font-size: 20px;
+  padding: 10px;
+}
+
+.slider {
+  width: 80%;
+  margin: 50px auto 0 auto;
 }
 
 .flex-wrapper1 {
